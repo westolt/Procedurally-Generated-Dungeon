@@ -1,0 +1,30 @@
+{
+  "name": "procedurally-generated-dungeon",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/westolt/Procedurally-Generated-Dungeon.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/westolt/Procedurally-Generated-Dungeon/issues"
+  },
+  "homepage": "https://github.com/westolt/Procedurally-Generated-Dungeon#readme",
+  "devDependencies": {
+    "pixi.js": "^8.22.0",
+    "typescript": "^7.0.2",
+    "vite": "^8.3.5"
+  }
+}
