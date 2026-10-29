@@ -9,7 +9,7 @@
 
 ## Minkä ongelman ratkaiset?
 
-- Tavoitteena on tehdä automaattinen luolaston generointi 2D-peliin. Pelaaja asetetaan johonkin huoneeseen ja tämän tehtävänä on löytää luolastosta portaat, jonka jälkeen automaattisesti generoidaan uusi luolasto.
+- Tavoitteena on tehdä automaattinen luolaston generointi 2D-peliin. Luola generoidaan kokonaan pelin alkaessa. Pelaaja sijoitetaan yhteen luolaston huoneista, ja hänen tavoitteenaan on löytää portaat, jotka johtavat seuraavaan luolastoon. Portaiden saavuttamisen jälkeen generoidaan automaattisesti uusi luolasto.
 
 ## Mitä algoritmeja ja tietorakenteita toteutat työssäsi?
 
