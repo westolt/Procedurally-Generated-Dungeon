@@ -1,3 +1,7 @@
+## Opinto-ohjelma
+
+- Tietojenkäsittelytieteen kandidaatti (TKT)
+
 ## Mitä ohjelmointikieltä käytät?
 
 - TypeScript
