@@ -1,14 +1,14 @@
 ## Viikkoraportti 1
 
-Käytetty tuntimäärä: 5h
+Käytetty tuntimäärä: 11h
 
 ## Mitä olen tehnyt tällä viikolla?
 
-Päätin harjoitustyön aiheen ja etsin tietoa aiheeseen liittyvistä algoritmeista. Suunnittelin alustavasti, miten toteutan projektin ja mitä ohjelmointikieltä käytän. Suunnitelman pohjalta kirjoitin määrittelydokumentin. Lisäksi loin projektille GitHub repositorion ja rekisteröin sen Labtooliin.
+Päätin harjoitustyön aiheen ja etsin tietoa aiheeseen liittyvistä algoritmeista. Suunnittelin alustavasti, miten toteutan projektin ja mitä ohjelmointikieltä käytän. Suunnitelman pohjalta kirjoitin määrittelydokumentin. Lisäksi loin projektille GitHub repositorion ja rekisteröin sen Labtooliin. Olen aloittanut projektin koodaamisen.
 
 ## Miten ohjelma on edistynyt?
 
-Ohjelman varsinainen toteutus ei ole vielä alkanut, mutta olen suunnitellut sen rakennetta ja valinnut alustavasti käytettävät algoritmit sekä teknologiat. Tarkoituksena on tehdä vielä tällä viikolla visuaalinen puoli pois alta, jotta voin keskittyä ensi viikolla jo algoritmeihin.
+Olen tehnyt 2D-maailman, jossa näkyy yksinkertainen luolasto ja yksivärisellä neliöllä kuvattu pelaajahahmo. Olen toteuttanut pelaajan liikkumisen niin, että pelaaja liikkuu hiiren klikkaamaan kohtaan.
 
 ## Mitä opin tällä viikolla / tänään?
 
@@ -25,4 +25,4 @@ Tässä vaiheessa ei ole tullut vastaan erityisiä vaikeuksia. Algoritmien tarke
 
 ## Mitä teen seuraavaksi?
 
-Teen seuraavaksi yksinkertaisen 2D-maailman, jossa näkyy yksi huone ja yksivärisellä neliöllä kuvattu pelaajahahmo. Toteutan pelaajan liikkumisen ja varmistan, että perusrakenne toimii. Tämän jälkeen alan toteuttaa luolaston generointia.
+ Alan toteuttaa luolaston generointia.
