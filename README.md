@@ -13,3 +13,7 @@ Start the game
 npm run dev
 ```
 Open the local URL shown in the terminal
+
+## Controls
+
+ Left mouse click: Move the character to the clicked location.
