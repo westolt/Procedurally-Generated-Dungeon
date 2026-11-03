@@ -59,13 +59,13 @@ import { dungeon, type DungeonRow } from "./dungeon";
   let newPosY = worldPosY;
 
   app.stage.onclick = (event) => {
-    newPosX = worldPosX - (event.global.x - playerPosX);
-    newPosY = worldPosY - (event.global.y - playerPosY);
+    newPosX = worldPosX - (event.global.x - playerPosX - 25);
+    newPosY = worldPosY - (event.global.y - playerPosY - 25);
   };
 
   // Move world towards new positions
   app.ticker.add((time) => {
-    const speed = 0.1 * time.deltaTime;
+    const speed = 0.2 * time.deltaTime;
     const playerSize = 50;
     const tileSize = 100;
 
