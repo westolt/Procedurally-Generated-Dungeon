@@ -1,5 +1,5 @@
 import { Application, Container, Graphics } from "pixi.js";
-import { dungeon, type DungeonRow } from "./dungeon";
+import { dungeonMap, generateDungeonMap } from "./dungeon";
 
 (async () => {
   // Create a new application
@@ -11,13 +11,15 @@ import { dungeon, type DungeonRow } from "./dungeon";
   // Append the application canvas to the document body
   document.body.appendChild(app.canvas);
 
-  // Create a world and a dungeon
+  // Create the world container
   const world = new Container();
 
-  async function createDungeon() {
-    for (let i = 0; i < 10; ++i) {
-      const row: DungeonRow = dungeon[i]!;
-      for (let j = 0; j < 10; j++) {
+  generateDungeonMap();
+
+  function drawDungeon() {
+    for (let i = 0; i < 20; ++i) {
+      const row = dungeonMap[i]!;
+      for (let j = 0; j < 20; j++) {
         if (row[j] == 0) {
           const dungeonWall = new Graphics()
             .rect(j * 100, i * 100, 100, 100)
@@ -33,7 +35,8 @@ import { dungeon, type DungeonRow } from "./dungeon";
     }
   }
 
-  await createDungeon();
+  // Draw the dungeon map
+  drawDungeon();
 
   let worldPosX = app.screen.width / 2 - 250;
   let worldPosY = app.screen.height / 2 - 250;
@@ -52,7 +55,7 @@ import { dungeon, type DungeonRow } from "./dungeon";
 
   app.stage.addChild(player);
 
-  // Track mouse clicks and save new world positions
+  // Track mouse clicks and calculate the target world position
   app.stage.eventMode = "static";
 
   let newPosX = worldPosX;
@@ -63,8 +66,9 @@ import { dungeon, type DungeonRow } from "./dungeon";
     newPosY = worldPosY - (event.global.y - playerPosY - 25);
   };
 
-  // Move world towards new positions
+  // Move the world towards the target position
   app.ticker.add((time) => {
+    // Adjust movement speed based on frame time
     const speed = 0.2 * time.deltaTime;
     const playerSize = 50;
     const tileSize = 100;
@@ -85,8 +89,9 @@ import { dungeon, type DungeonRow } from "./dungeon";
 
       let canMove = true;
 
+      // Check whether the player can move horizontally without hitting a wall
       for (let y = top; y <= bottom; y++) {
-        if (dungeon[y]?.[left] !== 1 || dungeon[y]?.[right] !== 1) {
+        if (dungeonMap[y]?.[left] !== 1 || dungeonMap[y]?.[right] !== 1) {
           canMove = false;
           break;
         }
@@ -114,8 +119,9 @@ import { dungeon, type DungeonRow } from "./dungeon";
 
       let canMove = true;
 
+      // Check whether the player can move vertically without hitting a wall
       for (let x = left; x <= right; x++) {
-        if (dungeon[top]?.[x] !== 1 || dungeon[bottom]?.[x] !== 1) {
+        if (dungeonMap[top]?.[x] !== 1 || dungeonMap[bottom]?.[x] !== 1) {
           canMove = false;
           break;
         }
