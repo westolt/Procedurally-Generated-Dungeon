@@ -1,3 +1,5 @@
+import { doBowyerWatson, initializeSuperTriangle } from "./bowyer-watson";
+
 type DungeonValue = 0 | 1;
 
 export interface DungeonType {
@@ -6,12 +8,24 @@ export interface DungeonType {
 }
 
 // Configuration for dungeon generation
-const info: DungeonType = {
+export const info: DungeonType = {
   size: 20,
-  numberOfRooms: 10,
+  numberOfRooms: 4,
 };
 
 export const dungeonMap: Array<Array<DungeonValue>> = [];
+
+interface Coordinates {
+  x: number;
+  y: number;
+}
+
+interface RoomData {
+  centerCoordinates: Coordinates;
+  // connectsTo: Array<Coordinates>;
+}
+
+export const dungeonRooms = new Map<number, RoomData>();
 
 /**
  * Builds a 3x3 room at the given coordinates.
@@ -19,11 +33,28 @@ export const dungeonMap: Array<Array<DungeonValue>> = [];
  * @param i The starting row of the room.
  * @param j The starting column of the room.
  */
-function buildRoom(i: number, j: number) {
+function buildRoom(i: number, j: number, roomsNeeded: number) {
+  let countRow = 0;
+  let countPos = 0;
+
   for (let y = i; y < i + 3; y++) {
+    countPos = 0;
     for (let x = j; x < j + 3; x++) {
       dungeonMap[y]![x] = 1;
+
+      if (countRow === 1 && countPos === 1) {
+        dungeonRooms.set(info.numberOfRooms - roomsNeeded, {
+          centerCoordinates: { x: x, y: y },
+        });
+
+        const c = { x: x, y: y };
+
+        doBowyerWatson(c);
+      }
+
+      countPos++;
     }
+    countRow++;
   }
 }
 
@@ -57,6 +88,7 @@ function isAreaEmpty(i: number, j: number): boolean {
  */
 export function generateDungeonMap() {
   dungeonMap.length = 0;
+  initializeSuperTriangle(info.size);
 
   // Initialize map with zeros
   for (let i = 0; i < info.size; i++) {
@@ -82,7 +114,7 @@ export function generateDungeonMap() {
           if (buildingChance > random) {
             const isEmpty = isAreaEmpty(i, j);
             if (isEmpty) {
-              buildRoom(i, j);
+              buildRoom(i, j, roomsNeeded);
               roomsNeeded--;
             }
           }
@@ -98,6 +130,7 @@ export function generateDungeonMap() {
   }
 
   console.log(dungeonMap);
+  console.log(dungeonRooms);
 
   return dungeonMap;
 }
