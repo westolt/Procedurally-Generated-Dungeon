@@ -1,4 +1,4 @@
-import { doBowyerWatson, initializeSuperTriangle } from "./bowyer-watson";
+import { doBowyerWatson } from "./bowyer-watson";
 
 type DungeonValue = 0 | 1;
 
@@ -10,7 +10,7 @@ export interface DungeonType {
 // Configuration for dungeon generation
 export const info: DungeonType = {
   size: 20,
-  numberOfRooms: 4,
+  numberOfRooms: 8,
 };
 
 export const dungeonMap: Array<Array<DungeonValue>> = [];
@@ -20,12 +20,7 @@ interface Coordinates {
   y: number;
 }
 
-interface RoomData {
-  centerCoordinates: Coordinates;
-  // connectsTo: Array<Coordinates>;
-}
-
-export const dungeonRooms = new Map<number, RoomData>();
+export const pointList = new Map<number, Coordinates>();
 
 /**
  * Builds a 3x3 room at the given coordinates.
@@ -42,14 +37,9 @@ function buildRoom(i: number, j: number, roomsNeeded: number) {
     for (let x = j; x < j + 3; x++) {
       dungeonMap[y]![x] = 1;
 
+      // Find thet center of the room and add it to the pointList
       if (countRow === 1 && countPos === 1) {
-        dungeonRooms.set(info.numberOfRooms - roomsNeeded, {
-          centerCoordinates: { x: x, y: y },
-        });
-
-        const c = { x: x, y: y };
-
-        doBowyerWatson(c);
+        pointList.set(info.numberOfRooms - roomsNeeded, { x: x, y: y });
       }
 
       countPos++;
@@ -88,7 +78,6 @@ function isAreaEmpty(i: number, j: number): boolean {
  */
 export function generateDungeonMap() {
   dungeonMap.length = 0;
-  initializeSuperTriangle(info.size);
 
   // Initialize map with zeros
   for (let i = 0; i < info.size; i++) {
@@ -130,7 +119,10 @@ export function generateDungeonMap() {
   }
 
   console.log(dungeonMap);
-  console.log(dungeonRooms);
+  console.log("pointList: ", pointList);
 
+  const triangulation = doBowyerWatson(info.size, pointList);
+
+  console.log("triangulation: ", triangulation);
   return dungeonMap;
 }
