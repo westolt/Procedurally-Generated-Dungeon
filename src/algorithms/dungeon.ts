@@ -1,16 +1,18 @@
-import { doBowyerWatson } from "./bowyer-watson";
+import { doBowyerWatson } from "./bowyerWatson";
 
 type DungeonValue = 0 | 1;
 
+type ValidNumberOfRooms = 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10;
+
 export interface DungeonType {
-  size: number;
-  numberOfRooms: number;
+  size: 20;
+  numberOfRooms: ValidNumberOfRooms;
 }
 
 // Configuration for dungeon generation
 export const info: DungeonType = {
   size: 20,
-  numberOfRooms: 8,
+  numberOfRooms: 4,
 };
 
 export const dungeonMap: Array<Array<DungeonValue>> = [];
@@ -30,10 +32,9 @@ export const pointList = new Map<number, Coordinates>();
  */
 function buildRoom(i: number, j: number, roomsNeeded: number) {
   let countRow = 0;
-  let countPos = 0;
 
   for (let y = i; y < i + 3; y++) {
-    countPos = 0;
+    let countPos = 0;
     for (let x = j; x < j + 3; x++) {
       dungeonMap[y]![x] = 1;
 
@@ -77,6 +78,7 @@ function isAreaEmpty(i: number, j: number): boolean {
  *          0 represents an empty tile and 1 represents a room tile.
  */
 export function generateDungeonMap() {
+  pointList.clear();
   dungeonMap.length = 0;
 
   // Initialize map with zeros

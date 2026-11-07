@@ -25,4 +25,4 @@ Tässä vaiheessa ei ole tullut vastaan erityisiä vaikeuksia. Algoritmien tarke
 
 ## Mitä teen seuraavaksi?
 
- Alan toteuttaa luolaston generointia.
+Alan toteuttaa luolaston generointia.

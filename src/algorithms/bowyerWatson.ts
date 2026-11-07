@@ -15,7 +15,7 @@ interface SuperTriangle {
  * @param size The size of the dungeon map.
  * @returns A super triangle containing three vertices.
  */
-function initializeSuperTriangleVertices(size: number): SuperTriangle {
+export function initializeSuperTriangleVertices(size: number): SuperTriangle {
   const superT: SuperTriangle = {
     p1: { x: size / 2, y: -(size / 2) },
     p2: { x: size + size / 2, y: size },
@@ -34,8 +34,7 @@ function initializeSuperTriangleVertices(size: number): SuperTriangle {
  * @returns The coordinates of the triangle's circumcenter.
  */
 function getCircumcenter(p1: Coordinates, p2: Coordinates, p3: Coordinates) {
-  const D =
-    2 * (p1.x * (p2.y - p3.y) + p2.x * (p3.y - p1.y) + p3.x * (p1.y - p2.y));
+  const D = 2 * (p1.x * (p2.y - p3.y) + p2.x * (p3.y - p1.y) + p3.x * (p1.y - p2.y));
 
   const Ux =
     (p1.x ** 2 + p1.y ** 2) * (p2.y - p3.y) +
@@ -87,10 +86,7 @@ function isInsideCircumcircle(
  * @param pointList A map containing the keys and coordinates of the points.
  * @returns The triangulation.
  */
-export function doBowyerWatson(
-  dungeonSize: number,
-  pointList: Map<number, Coordinates>,
-) {
+export function doBowyerWatson(dungeonSize: number, pointList: Map<number, Coordinates>) {
   const triangulation = new Map<number, [number, number, number]>();
 
   let nextTriangleId = 0;
@@ -137,11 +133,7 @@ export function doBowyerWatson(
       if (!circumCenter) continue;
       const circumradius = getCircumradius(circumCenter, p1!);
 
-      const isInside = isInsideCircumcircle(
-        circumCenter,
-        circumradius,
-        currentPoint,
-      );
+      const isInside = isInsideCircumcircle(circumCenter, circumradius, currentPoint);
 
       if (isInside) {
         badTriangles.add(key);
@@ -170,22 +162,13 @@ export function doBowyerWatson(
           const a = compare?.[0];
           const b = compare?.[1];
           const c = compare?.[2];
-          if (
-            (edge[0] == a && edge[1] == b) ||
-            (edge[1] == a && edge[0] == b)
-          ) {
+          if ((edge[0] == a && edge[1] == b) || (edge[1] == a && edge[0] == b)) {
             isShared = true;
             break;
-          } else if (
-            (edge[0] == b && edge[1] == c) ||
-            (edge[1] == c && edge[0] == b)
-          ) {
+          } else if ((edge[0] == b && edge[1] == c) || (edge[1] == c && edge[0] == b)) {
             isShared = true;
             break;
-          } else if (
-            (edge[0] == c && edge[1] == a) ||
-            (edge[1] == a && edge[0] == c)
-          ) {
+          } else if ((edge[0] == c && edge[1] == a) || (edge[1] == a && edge[0] == c)) {
             isShared = true;
             break;
           }

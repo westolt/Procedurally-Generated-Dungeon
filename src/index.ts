@@ -1,5 +1,5 @@
 import { Application, Container, Graphics } from "pixi.js";
-import { dungeonMap, generateDungeonMap } from "./dungeon";
+import { dungeonMap, generateDungeonMap } from "./algorithms/dungeon";
 
 (async () => {
   // Create a new application
@@ -21,14 +21,10 @@ import { dungeonMap, generateDungeonMap } from "./dungeon";
       const row = dungeonMap[i]!;
       for (let j = 0; j < 20; j++) {
         if (row[j] == 0) {
-          const dungeonWall = new Graphics()
-            .rect(j * 100, i * 100, 100, 100)
-            .fill("#374050");
+          const dungeonWall = new Graphics().rect(j * 100, i * 100, 100, 100).fill("#374050");
           world.addChild(dungeonWall);
         } else {
-          const dungeonFloor = new Graphics()
-            .rect(j * 100, i * 100, 100, 100)
-            .fill("#1c2129");
+          const dungeonFloor = new Graphics().rect(j * 100, i * 100, 100, 100).fill("#1c2129");
           world.addChild(dungeonFloor);
         }
       }
@@ -49,9 +45,7 @@ import { dungeonMap, generateDungeonMap } from "./dungeon";
   const playerPosX = app.screen.width / 2 - 25;
   const playerPosY = app.screen.height / 2 - 25;
 
-  const player = new Graphics()
-    .rect(playerPosX, playerPosY, 50, 50)
-    .fill("#f7d873");
+  const player = new Graphics().rect(playerPosX, playerPosY, 50, 50).fill("#f7d873");
 
   app.stage.addChild(player);
 
@@ -78,14 +72,10 @@ import { dungeonMap, generateDungeonMap } from "./dungeon";
       const nextWorldX = worldPosX + (newPosX - worldPosX) * speed;
 
       const left = Math.floor((playerPosX - nextWorldX) / tileSize);
-      const right = Math.floor(
-        (playerPosX + playerSize - nextWorldX - 1) / tileSize,
-      );
+      const right = Math.floor((playerPosX + playerSize - nextWorldX - 1) / tileSize);
 
       const top = Math.floor((playerPosY - worldPosY) / tileSize);
-      const bottom = Math.floor(
-        (playerPosY + playerSize - worldPosY - 1) / tileSize,
-      );
+      const bottom = Math.floor((playerPosY + playerSize - worldPosY - 1) / tileSize);
 
       let canMove = true;
 
@@ -108,14 +98,10 @@ import { dungeonMap, generateDungeonMap } from "./dungeon";
       const nextWorldY = worldPosY + (newPosY - worldPosY) * speed;
 
       const left = Math.floor((playerPosX - worldPosX) / tileSize);
-      const right = Math.floor(
-        (playerPosX + playerSize - worldPosX - 1) / tileSize,
-      );
+      const right = Math.floor((playerPosX + playerSize - worldPosX - 1) / tileSize);
 
       const top = Math.floor((playerPosY - nextWorldY) / tileSize);
-      const bottom = Math.floor(
-        (playerPosY + playerSize - nextWorldY - 1) / tileSize,
-      );
+      const bottom = Math.floor((playerPosY + playerSize - nextWorldY - 1) / tileSize);
 
       let canMove = true;
 
