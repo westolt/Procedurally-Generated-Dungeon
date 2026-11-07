@@ -1,3 +1,5 @@
+[![codecov](https://codecov.io/gh/westolt/Procedurally-Generated-Dungeon/branch/main/graph/badge.svg)](https://codecov.io/gh/westolt/Procedurally-Generated-Dungeon)   
+
 # Procedurally-Generated-Dungeon
 
 ## How to run the game
