@@ -1,3 +1,5 @@
+[![CI Tests](https://github.com/westolt/Procedurally-Generated-Dungeon/actions/workflows/tests.yml/badge.svg?branch=main)](https://github.com/westolt/Procedurally-Generated-Dungeon/actions/workflows/tests.yml)
+
 [![codecov](https://codecov.io/gh/westolt/Procedurally-Generated-Dungeon/branch/main/graph/badge.svg)](https://codecov.io/gh/westolt/Procedurally-Generated-Dungeon)   
 
 # Procedurally-Generated-Dungeon
