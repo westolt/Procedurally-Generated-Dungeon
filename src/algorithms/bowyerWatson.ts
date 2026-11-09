@@ -33,7 +33,7 @@ export function initializeSuperTriangleVertices(size: number): SuperTriangle {
  * @param p3 The third vertex of the triangle.
  * @returns The coordinates of the triangle's circumcenter.
  */
-function getCircumcenter(p1: Coordinates, p2: Coordinates, p3: Coordinates) {
+export function getCircumcenter(p1: Coordinates, p2: Coordinates, p3: Coordinates) {
   const D = 2 * (p1.x * (p2.y - p3.y) + p2.x * (p3.y - p1.y) + p3.x * (p1.y - p2.y));
 
   const Ux =
@@ -56,7 +56,7 @@ function getCircumcenter(p1: Coordinates, p2: Coordinates, p3: Coordinates) {
  * @param p The coordinates of one of the triangle's vertices.
  * @returns The radius of the circumcircle.
  */
-function getCircumradius(circumCenter: Coordinates, p: Coordinates) {
+export function getCircumradius(circumCenter: Coordinates, p: Coordinates) {
   return Math.sqrt((circumCenter.x - p.x) ** 2 + (circumCenter.y - p.y) ** 2);
 }
 
@@ -68,15 +68,16 @@ function getCircumradius(circumCenter: Coordinates, p: Coordinates) {
  * @param p The point to check.
  * @returns True if the point is inside or on the circumcircle, otherwise false.
  */
-function isInsideCircumcircle(
+export function isInsideCircumcircle(
   circumCenter: Coordinates,
   circumradius: number,
   p: Coordinates,
 ): boolean {
   const dx = circumCenter.x - p.x;
   const dy = circumCenter.y - p.y;
+  const epsilon = 1e-10;
 
-  return dx ** 2 + dy ** 2 <= circumradius ** 2;
+  return dx ** 2 + dy ** 2 <= circumradius ** 2 + epsilon;
 }
 
 /**
@@ -105,16 +106,18 @@ export function doBowyerWatson(dungeonSize: number, pointList: Map<number, Coord
 
   const lastKey = Math.max(-1, ...pointList.keys());
 
+  if (!lastKey) return;
+
   // Create a copy of the pointList that holds the information of all the point coordinates including super triangle points
   const pointListC = new Map([...pointList]);
 
   // Add super triangle's vertix coordinates to pointLis copy
-  pointListC.set(lastKey! + 1, superT.p1);
-  pointListC.set(lastKey! + 2, superT.p2);
-  pointListC.set(lastKey! + 3, superT.p3);
+  pointListC.set(lastKey + 1, superT.p1);
+  pointListC.set(lastKey + 2, superT.p2);
+  pointListC.set(lastKey + 3, superT.p3);
 
   // Add the super triangle to triangulation
-  addTriangle(lastKey! + 1, lastKey! + 2, lastKey! + 3);
+  addTriangle(lastKey + 1, lastKey + 2, lastKey + 3);
 
   // Add all the points one at a time to the triangulation
   for (const [key, value] of pointList) {
@@ -130,7 +133,9 @@ export function doBowyerWatson(dungeonSize: number, pointList: Map<number, Coord
       const p3 = pointListC.get(value[2]!);
       const circumCenter = getCircumcenter(p1!, p2!, p3!);
 
-      if (!circumCenter) continue;
+      if (!circumCenter) {
+        continue;
+      }
       const circumradius = getCircumradius(circumCenter, p1!);
 
       const isInside = isInsideCircumcircle(circumCenter, circumradius, currentPoint);
@@ -159,16 +164,19 @@ export function doBowyerWatson(dungeonSize: number, pointList: Map<number, Coord
         for (const otherTriangle of badTriangles) {
           if (otherTriangle === triangle) continue;
           const compare = triangulation.get(otherTriangle);
-          const a = compare?.[0];
-          const b = compare?.[1];
-          const c = compare?.[2];
+          if (!compare) continue;
+
+          const a = compare[0];
+          const b = compare[1];
+          const c = compare[2];
+
           if ((edge[0] == a && edge[1] == b) || (edge[1] == a && edge[0] == b)) {
             isShared = true;
             break;
-          } else if ((edge[0] == b && edge[1] == c) || (edge[1] == c && edge[0] == b)) {
+          } else if ((edge[0] == b && edge[1] == c) || (edge[1] == b && edge[0] == c)) {
             isShared = true;
             break;
-          } else if ((edge[0] == c && edge[1] == a) || (edge[1] == a && edge[0] == c)) {
+          } else if ((edge[0] == c && edge[1] == a) || (edge[1] == c && edge[0] == a)) {
             isShared = true;
             break;
           }
@@ -192,10 +200,10 @@ export function doBowyerWatson(dungeonSize: number, pointList: Map<number, Coord
     }
   }
 
-  // Remove triangles that contain vertices of the super triangle
+  // Remove triangles containing super triangle vertices
   for (const [key, value] of triangulation) {
     for (let i = 1; i < 4; i++) {
-      if (value.includes(lastKey! + i)) {
+      if (value.includes(lastKey + i)) {
         removeTriangle(key);
       }
     }

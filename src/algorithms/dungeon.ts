@@ -120,11 +120,11 @@ export function generateDungeonMap() {
     }
   }
 
-  console.log(dungeonMap);
-  console.log("pointList: ", pointList);
+  // console.log(dungeonMap);
+  // console.log("pointList: ", pointList);
 
-  const triangulation = doBowyerWatson(info.size, pointList);
+  doBowyerWatson(info.size, pointList);
 
-  console.log("triangulation: ", triangulation);
+  // console.log("triangulation: ", triangulation);
   return dungeonMap;
 }
