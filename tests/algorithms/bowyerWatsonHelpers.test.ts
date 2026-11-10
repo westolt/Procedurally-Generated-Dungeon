@@ -53,9 +53,9 @@ describe("initializeSuperTriangleVertices", () => {
     expect(result).toHaveProperty("p2");
     expect(result).toHaveProperty("p3");
 
-    expect(result.p1).toEqual({ x: 10, y: -10 });
-    expect(result.p2).toEqual({ x: 30, y: 20 });
-    expect(result.p3).toEqual({ x: -10, y: 20 });
+    expect(result.p1).toEqual({ x: 20, y: -40 });
+    expect(result.p2).toEqual({ x: 80, y: 80 });
+    expect(result.p3).toEqual({ x: -40, y: 80 });
   });
 
   it("should contain all possible room center coordinates", () => {
@@ -84,8 +84,8 @@ describe("getCircumcenter", () => {
     expect(result).toHaveProperty("x");
     expect(result).toHaveProperty("y");
 
-    expect(result.x).toEqual(10);
-    expect(result.y).toBeCloseTo(11.666);
+    expect(result.x).toEqual(20);
+    expect(result.y).toBeCloseTo(35);
   });
 
   it("should calculate circumcenter of a different triangle", () => {
@@ -136,7 +136,7 @@ describe("getCircumradius", () => {
 
     const result = getCircumradius(circumCenter, triangle.p1);
 
-    expect(result).toBeCloseTo(21.666);
+    expect(result).toBeCloseTo(75);
   });
 
   it("should calculate circumradius of a different triangle", () => {
@@ -205,7 +205,7 @@ describe("isInsideCircumcircle", () => {
     const circumCenter = getCircumcenter(triangle.p1, triangle.p2, triangle.p3);
     const circumradius = getCircumradius(circumCenter, triangle.p1);
 
-    const point = { x: 32, y: 32 };
+    const point = { x: 82, y: 82 };
 
     const result = isInsideCircumcircle(circumCenter, circumradius, point);
 

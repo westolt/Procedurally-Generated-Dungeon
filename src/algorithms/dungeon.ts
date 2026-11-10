@@ -12,7 +12,7 @@ export interface DungeonType {
 // Configuration for dungeon generation
 export const info: DungeonType = {
   size: 20,
-  numberOfRooms: 4,
+  numberOfRooms: 8,
 };
 
 export const dungeonMap: Array<Array<DungeonValue>> = [];
@@ -120,11 +120,11 @@ export function generateDungeonMap() {
     }
   }
 
-  // console.log(dungeonMap);
-  // console.log("pointList: ", pointList);
+  console.log(dungeonMap);
+  console.log("pointList: ", pointList);
 
-  doBowyerWatson(info.size, pointList);
+  const triangulation = doBowyerWatson(info.size, pointList);
 
-  // console.log("triangulation: ", triangulation);
+  console.log("triangulation: ", triangulation);
   return dungeonMap;
 }

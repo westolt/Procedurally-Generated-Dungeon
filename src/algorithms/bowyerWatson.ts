@@ -16,10 +16,12 @@ interface SuperTriangle {
  * @returns A super triangle containing three vertices.
  */
 export function initializeSuperTriangleVertices(size: number): SuperTriangle {
+  const s = size * 2;
+
   const superT: SuperTriangle = {
-    p1: { x: size / 2, y: -(size / 2) },
-    p2: { x: size + size / 2, y: size },
-    p3: { x: -(size / 2), y: size },
+    p1: { x: s / 2, y: -s },
+    p2: { x: s + s, y: s + s },
+    p3: { x: -s, y: s + s },
   };
 
   return superT;

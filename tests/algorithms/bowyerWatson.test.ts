@@ -12,10 +12,10 @@ interface Coordinates {
 }
 
 /**
- * In computational geometry, a Delaunay triangulation or Delone triangulation of a set of points
- * in the plane subdivides their convex hull[1] into triangles whose circumcircles do not contain any of the points;
+ * "In computational geometry, a Delaunay triangulation or Delone triangulation of a set of points
+ * in the plane subdivides their convex hull into triangles whose circumcircles do not contain any of the points;
  * that is, each circumcircle has its generating points on its circumference, but all other points in the set are outside of it.
- * If the points all lie on a straight line, the notion of triangulation becomes degenerate and there is no Delaunay triangulation.
+ * If the points all lie on a straight line, the notion of triangulation becomes degenerate and there is no Delaunay triangulation."
  * @source Wikipedia (Delaunay triangulation)
  */
 
@@ -36,7 +36,7 @@ describe("doBowyerWatson with a set of four points", () => {
     expect(result).toEqual(
       new Map([
         [10, [2, 1, 0]],
-        [16, [3, 1, 2]],
+        [17, [3, 1, 2]],
       ]),
     );
   });
@@ -70,15 +70,15 @@ describe("doBowyerWatson with a set of four points", () => {
     expect(isInsideCircumcircle(circumcenter, circumradius, pointList1.get(3)!)).toBe(false);
   });
 
-  it("triangle 16 should only contain its own points", () => {
+  it("triangle 17 should only contain its own points", () => {
     const triangulation = doBowyerWatson(20, pointList1);
 
     expect(triangulation).toBeDefined();
     if (!triangulation) throw new Error("Triangulation was not created");
 
-    const ownPoints = triangulation.get(16);
+    const ownPoints = triangulation.get(17);
     expect(ownPoints).toBeDefined();
-    if (!ownPoints) throw new Error("Triangle 16 was not found");
+    if (!ownPoints) throw new Error("Triangle 17 was not found");
 
     const p1 = pointList1.get(ownPoints[0]);
     const p2 = pointList1.get(ownPoints[1]);
@@ -118,7 +118,7 @@ describe("doBowyerWatson with one point inside a triangle", () => {
       new Map([
         [8, [2, 1, 0]],
         [14, [3, 0, 1]],
-        [16, [3, 1, 2]],
+        [17, [3, 1, 2]],
       ]),
     );
   });
@@ -181,15 +181,15 @@ describe("doBowyerWatson with one point inside a triangle", () => {
     expect(isInsideCircumcircle(circumcenter, circumradius, pointList2.get(2)!)).toBe(false);
   });
 
-  it("triangle 16 should only contain its own points", () => {
+  it("triangle 17 should only contain its own points", () => {
     const triangulation = doBowyerWatson(20, pointList2);
 
     expect(triangulation).toBeDefined();
     if (!triangulation) throw new Error("Triangulation was not created");
 
-    const ownPoints = triangulation.get(16);
+    const ownPoints = triangulation.get(17);
     expect(ownPoints).toBeDefined();
-    if (!ownPoints) throw new Error("Triangle 16 was not found");
+    if (!ownPoints) throw new Error("Triangle 17 was not found");
 
     const p1 = pointList2.get(ownPoints[0]);
     const p2 = pointList2.get(ownPoints[1]);
@@ -226,7 +226,6 @@ describe("test doBowyerWatson logic when all points lie on a straight line", () 
   });
 });
 
-// Still working on this!
 const pointList4: Map<number, Coordinates> = new Map([
   [0, { x: 16, y: 4 }],
   [1, { x: 3, y: 5 }],
@@ -234,15 +233,75 @@ const pointList4: Map<number, Coordinates> = new Map([
   [3, { x: 5, y: 9 }],
 ]);
 
-describe("ongelmatapaus", () => {
-  it("ongelmatapaus", () => {
+describe("doBowyerWatson with one point inside a triangle, but other way around", () => {
+  it("should correctly triangulate the given points", () => {
     const result = doBowyerWatson(20, pointList4);
 
     expect(result).toBeDefined();
     if (!result) throw new Error("Triangulation was not created");
 
-    console.log(result);
+    expect(result).toEqual(
+      new Map([
+        [9, [2, 1, 0]],
+        [11, [3, 2, 0]],
+        [15, [3, 1, 2]],
+      ]),
+    );
+  });
+});
 
-    expect(result).toEqual(new Map([[16, [3, 1, 2]]]));
+const pointList5: Map<number, Coordinates> = new Map([
+  [0, { x: 3, y: 4 }],
+  [1, { x: 8, y: 6 }],
+  [2, { x: 12, y: 9 }],
+  [3, { x: 16, y: 10 }],
+]);
+
+describe("doBowyerWatson with almost a straight line", () => {
+  it("should correctly triangulate the given points", () => {
+    const result = doBowyerWatson(20, pointList5);
+
+    expect(result).toBeDefined();
+    if (!result) throw new Error("Triangulation was not created");
+
+    expect(result).toEqual(
+      new Map([
+        [12, [2, 0, 1]],
+        [13, [3, 2, 1]],
+      ]),
+    );
+  });
+});
+
+const pointList6: Map<number, Coordinates> = new Map([
+  [0, { x: 5, y: 2 }],
+  [1, { x: 14, y: 4 }],
+  [2, { x: 4, y: 8 }],
+  [3, { x: 11, y: 12 }],
+  [4, { x: 10, y: 7 }],
+  [5, { x: 16, y: 8 }],
+  [6, { x: 6, y: 16 }],
+  [7, { x: 10, y: 16 }],
+]);
+
+describe("doBowyerWatson with 8 points whose y-coordinates are not ordered by point ID", () => {
+  it("should correctly triangulate the given points", () => {
+    const result = doBowyerWatson(20, pointList6);
+
+    expect(result).toBeDefined();
+    if (!result) throw new Error("Triangulation was not created");
+
+    expect(result).toEqual(
+      new Map([
+        [16, [4, 2, 0]],
+        [17, [4, 0, 1]],
+        [18, [4, 3, 2]],
+        [23, [5, 4, 1]],
+        [24, [5, 3, 4]],
+        [28, [6, 2, 3]],
+        [30, [7, 3, 5]],
+        [31, [7, 6, 3]],
+      ]),
+    );
   });
 });
