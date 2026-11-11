@@ -1,5 +1,5 @@
 import { Application, Container, Graphics } from "pixi.js";
-import { dungeonMap, generateDungeonMap } from "./algorithms/dungeon";
+import { dungeonMap, generateDungeonMap, pointList } from "./algorithms/dungeon";
 
 (async () => {
   // Create a new application
@@ -34,8 +34,17 @@ import { dungeonMap, generateDungeonMap } from "./algorithms/dungeon";
   // Draw the dungeon map
   drawDungeon();
 
-  let worldPosX = app.screen.width / 2 - 250;
-  let worldPosY = app.screen.height / 2 - 250;
+  // Get a random spawn point for the player
+  const randomPoint = Math.floor(Math.random() * pointList.size);
+  const spawnPoint = pointList.get(randomPoint);
+  console.log("spawnPoint: ", spawnPoint);
+
+  if (!spawnPoint) {
+    throw new Error("Could not get a spawn point.");
+  }
+
+  let worldPosX = app.screen.width / 2 - spawnPoint.x * 100 - 50;
+  let worldPosY = app.screen.height / 2 - spawnPoint.y * 100 - 50;
 
   world.position.set(worldPosX, worldPosY);
 
