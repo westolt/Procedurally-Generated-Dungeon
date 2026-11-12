@@ -1,3 +1,4 @@
+import { aStar } from "./aStar";
 import { doBowyerWatson } from "./bowyerWatson";
 
 type DungeonValue = 0 | 1;
@@ -12,7 +13,7 @@ export interface DungeonType {
 // Configuration for dungeon generation
 export const info: DungeonType = {
   size: 20,
-  numberOfRooms: 8,
+  numberOfRooms: 4,
 };
 
 export const dungeonMap: Array<Array<DungeonValue>> = [];
@@ -120,11 +121,25 @@ export function generateDungeonMap() {
     }
   }
 
-  console.log(dungeonMap);
   console.log("pointList: ", pointList);
 
   const triangulation = doBowyerWatson(info.size, pointList);
-
   console.log("triangulation: ", triangulation);
+
+  if (triangulation) {
+    for (const triangle of triangulation.values()) {
+      if (!triangle) return;
+      for (let i = 0; i < 3; i++) {
+        const start: Coordinates = pointList.get(triangle[i]!)!;
+        const goal: Coordinates =
+          i === 2 ? pointList.get(triangle[0])! : pointList.get(triangle[i + 1]!)!;
+        if (!start || !goal) return;
+        aStar(start, goal);
+      }
+    }
+  }
+
+  console.log(dungeonMap);
+
   return dungeonMap;
 }
