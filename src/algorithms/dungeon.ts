@@ -1,5 +1,7 @@
+import type { Coordinates } from "../types";
 import { aStar } from "./aStar";
 import { doBowyerWatson } from "./bowyerWatson";
+import { prim } from "./prim";
 
 type DungeonValue = 0 | 1;
 
@@ -13,15 +15,10 @@ export interface DungeonType {
 // Configuration for dungeon generation
 export const info: DungeonType = {
   size: 20,
-  numberOfRooms: 4,
+  numberOfRooms: 10,
 };
 
 export const dungeonMap: Array<Array<DungeonValue>> = [];
-
-interface Coordinates {
-  x: number;
-  y: number;
-}
 
 export const pointList = new Map<number, Coordinates>();
 
@@ -127,12 +124,13 @@ export function generateDungeonMap() {
   console.log("triangulation: ", triangulation);
 
   if (triangulation) {
-    for (const triangle of triangulation.values()) {
-      if (!triangle) return;
-      for (let i = 0; i < 3; i++) {
-        const start: Coordinates = pointList.get(triangle[i]!)!;
-        const goal: Coordinates =
-          i === 2 ? pointList.get(triangle[0])! : pointList.get(triangle[i + 1]!)!;
+    const paths = prim(triangulation, pointList);
+
+    if (paths) {
+      for (const path of paths.values()) {
+        if (!path) return;
+        const start: Coordinates = pointList.get(path[0]!)!;
+        const goal: Coordinates = pointList.get(path[1]!)!;
         if (!start || !goal) return;
         aStar(start, goal);
       }

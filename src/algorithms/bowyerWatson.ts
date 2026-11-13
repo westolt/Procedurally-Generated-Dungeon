@@ -1,7 +1,4 @@
-interface Coordinates {
-  x: number;
-  y: number;
-}
+import type { Coordinates } from "../types";
 
 interface SuperTriangle {
   p1: Coordinates;
